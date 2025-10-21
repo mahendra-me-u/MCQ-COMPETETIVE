@@ -244,6 +244,109 @@
             align-items: center;
         }
 
+        .review-question {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid #667eea;
+        }
+
+        .review-question-number {
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .review-question-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .review-option {
+            background: white;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 45px;
+        }
+
+        .review-option::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #e1e1e1;
+        }
+
+        .review-option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .review-option.correct::before {
+            content: '✓';
+            background: #28a745;
+            border-color: #28a745;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .review-option.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .review-option.wrong::before {
+            content: '✗';
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .review-option.not-selected {
+            opacity: 0.6;
+        }
+
+        .review-label {
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+
+        .label-correct {
+            background: #28a745;
+            color: white;
+        }
+
+        .label-your-answer {
+            background: #dc3545;
+            color: white;
+        }
+
         .welcome-section {
             text-align: center;
         }
@@ -455,9 +558,21 @@
             </div>
             <div class="result-score" id="scoreDisplay"></div>
             <div class="result-message" id="resultMessage"></div>
+            <button class="btn btn-primary" id="reviewAnswersBtn">📝 Review Answers</button>
             <button class="btn btn-primary" id="retakeQuizBtn">Take Another Quiz</button>
             <button class="btn btn-secondary" id="backToDashboardBtn">Back to Dashboard</button>
         </div>
+    </div>
+
+    <!-- Review Screen -->
+    <div id="reviewScreen" class="container quiz-container hidden">
+        <div class="header">
+            <h1>📝 Answer Review</h1>
+            <p>See all questions with correct answers</p>
+        </div>
+        <div id="reviewContainer"></div>
+        <button class="btn btn-secondary" id="backToResultBtn">Back to Results</button>
+        <button class="btn btn-primary" id="backToDashboardFromReviewBtn">Back to Dashboard</button>
     </div>
 
     <!-- User Results Screen -->
@@ -504,29 +619,79 @@
         // Sample MCQ Questions
         const questionBank = [
             {
-                question: "What is the capital of France?",
-                options: ["London", "Berlin", "Paris", "Madrid"],
-                correct: 2
-            },
-            {
-                question: "Which planet is known as the Red Planet?",
-                options: ["Venus", "Mars", "Jupiter", "Saturn"],
-                correct: 1
-            },
-            {
-                question: "What is 2 + 2?",
-                options: ["3", "4", "5", "6"],
-                correct: 1
-            },
-            {
-                question: "Who painted the Mona Lisa?",
-                options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
-                correct: 2
-            },
-            {
-                question: "What is the largest ocean on Earth?",
-                options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                question: "নিম্নলিখিত কোনটি পৃথিবীর সবচেয়ে বড় মহাসাগর?",
+                options: ["আটলান্টিক মহাসাগর", "ভারত মহাসাগর", "আর্কটিক মহাসাগর", "প্রশান্ত মহাসাগর"],
                 correct: 3
+            },
+            {
+                question: "পৃথিবীর কোন অংশে 'গ্রেট ব্যারিয়ার রিফ' অবস্থিত?",
+                options: ["অস্ট্রেলিয়া", "দক্ষিণ আমেরিকা", "আফ্রিকা", "এশিয়া"],
+                correct: 0
+            },
+            {
+                question: "নিম্নলিখিত কোনটি একটি উপনদী?",
+                options: ["যমুনা", "গঙ্গা", "ব্রহ্মপুত্র", "সোন"],
+                correct: 0
+            },
+            {
+                question: "'ডেড সি' কোথায় অবস্থিত?",
+                options: ["জর্ডান", "ইসরায়েল", "উভয় (A) এবং (B)", "সৌদি আরব"],
+                correct: 2
+            },
+            {
+                question: "পৃথিবীর সর্বোচ্চ পর্বতশৃঙ্গ কোনটি?",
+                options: ["কাঞ্চনজঙ্ঘা", "এভারেস্ট", "মাউন্ট ম্যাকিনলি", "কিলিমানজারো"],
+                correct: 1
+            },
+            {
+                question: "নিম্নলিখিত কোনটি একটি মরুভূমি?",
+                options: ["সাহারা", "আমাজন", "গঙ্গা", "নীল"],
+                correct: 0
+            },
+            {
+                question: "'রোয়ান্ডা' কোন মহাদেশে অবস্থিত?",
+                options: ["এশিয়া", "ইউরোপ", "আফ্রিকা", "উত্তর আমেরিকা"],
+                correct: 2
+            },
+            {
+                question: "পৃথিবীর কোন অক্ষাংশ রেখা 'ট্রপিক অফ ক্যান্সার' নামে পরিচিত?",
+                options: ["২৩.৫° উত্তর", "২৩.৫° দক্ষিণ", "৬৬.৫° উত্তর", "৬৬.৫° দক্ষিণ"],
+                correct: 0
+            },
+            {
+                question: "নিম্নলিখিত কোনটি আগ্নেয়গিরির ধরন?",
+                options: ["শিল্ড", "কম্পোজিট", "কালডেরা", "সবগুলিই"],
+                correct: 3
+            },
+            {
+                question: "'অ্যামাজন রেইনফরেস্ট' অধিকাংশ অংশ কোন দেশে অবস্থিত?",
+                options: ["ব্রাজিল", "পেরু", "কলম্বিয়া", "ভেনেজুয়েলা"],
+                correct: 0
+            },
+            {
+                question: "পৃথিবীর কোন সমুদ্রটি 'ডেথ সি' নামে পরিচিত?",
+                options: ["লোহিত সাগর", "মৃত সাগর", "কৃষ্ণ সাগর", "কারা সাগর"],
+                correct: 1
+            },
+            {
+                question: "পৃথিবীর সবচেয়ে ছোট মহাদেশ কোনটি?",
+                options: ["ইউরোপ", "অস্ট্রেলিয়া", "আন্টার্কটিকা", "দক্ষিণ আমেরিকা"],
+                correct: 1
+            },
+            {
+                question: "নীলনদ কোন মহাসাগরে গিয়ে মিশেছে?",
+                options: ["ভারত মহাসাগর", "প্রশান্ত মহাসাগর", "আটলান্টিক মহাসাগর", "আর্কটিক মহাসাগর"],
+                correct: 2
+            },
+            {
+                question: "পৃথিবীর সবচেয়ে ঠান্ডা স্থান কোনটি?",
+                options: ["আলাস্কা", "সাইবেরিয়া", "আন্টার্কটিকা", "গ্রিনল্যান্ড"],
+                correct: 2
+            },
+            {
+                question: "কোন দেশকে 'সানরাইজ ল্যান্ড' বলা হয়?",
+                options: ["চীন", "জাপান", "থাইল্যান্ড", "কোরিয়া"],
+                correct: 1
             }
         ];
 
@@ -807,6 +972,68 @@
         document.getElementById('retakeQuizBtn').addEventListener('click', () => {
             startQuiz();
         });
+
+        document.getElementById('reviewAnswersBtn').addEventListener('click', () => {
+            showReview();
+        });
+
+        document.getElementById('backToResultBtn').addEventListener('click', () => {
+            showScreen('resultScreen');
+        });
+
+        document.getElementById('backToDashboardFromReviewBtn').addEventListener('click', () => {
+            showScreen('dashboardScreen');
+        });
+
+        function showReview() {
+            const reviewContainer = document.getElementById('reviewContainer');
+            let html = '';
+
+            currentQuiz.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = question.correct;
+                const isCorrect = userAnswer === correctAnswer;
+
+                html += `
+                    <div class="review-question">
+                        <div class="review-question-number">Question ${index + 1}</div>
+                        <div class="review-question-text">${question.question}</div>
+                `;
+
+                question.options.forEach((option, optionIndex) => {
+                    let optionClass = 'review-option';
+                    let label = '';
+
+                    // Correct answer
+                    if (optionIndex === correctAnswer) {
+                        optionClass += ' correct';
+                        label = '<span class="review-label label-correct">Correct Answer</span>';
+                    }
+
+                    // User's wrong answer
+                    if (optionIndex === userAnswer && !isCorrect) {
+                        optionClass += ' wrong';
+                        label = '<span class="review-label label-your-answer">Your Answer</span>';
+                    }
+
+                    // Not selected options
+                    if (optionIndex !== correctAnswer && optionIndex !== userAnswer) {
+                        optionClass += ' not-selected';
+                    }
+
+                    html += `
+                        <div class="${optionClass}">
+                            ${option} ${label}
+                        </div>
+                    `;
+                });
+
+                html += '</div>';
+            });
+
+            reviewContainer.innerHTML = html;
+            showScreen('reviewScreen');
+        }
 
         document.getElementById('backToDashboardBtn').addEventListener('click', () => {
             showScreen('dashboardScreen');
