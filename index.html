@@ -485,6 +485,16 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
     <script>
+        // ⚠️ PASTE YOUR FIREBASE CONFIG HERE (ONE TIME SETUP)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBfGRzd0zYLfDa2YFAFtsryTkD7jx4AXOM",
+            authDomain: "mcq-platform-a08cc.firebaseapp.com",
+            projectId: "mcq-platform-a08cc",
+            storageBucket: "mcq-platform-a08cc.firebasestorage.app",
+            messagingSenderId: "1028116014295",
+            appId: "1:1028116014295:web:7bfc56b259d4f58be93c92"
+        };
+
         let db = null;
         let currentUser = null;
         let currentQuiz = [];
@@ -520,31 +530,53 @@
             }
         ];
 
-        // Initialize Firebase
-        document.getElementById('connectFirebaseBtn').addEventListener('click', () => {
-            const configText = document.getElementById('firebaseConfigInput').value.trim();
+        // Initialize Firebase on page load
+        function initFirebase() {
+            // Check if config is set
+            if (firebaseConfig.apiKey === "YOUR_API_KEY_HERE") {
+                showScreen('setupScreen');
 
+                // Auto-fill setup instructions
+                document.getElementById('connectFirebaseBtn').addEventListener('click', () => {
+                    const configText = document.getElementById('firebaseConfigInput').value.trim();
+
+                    try {
+                        const newConfig = JSON.parse(configText);
+
+                        // Show instructions to update code
+                        alert('✅ Config is valid!\n\nNow follow these steps:\n\n1. Open the HTML file in a text editor\n2. Find the line: apiKey: "YOUR_API_KEY_HERE"\n3. Replace the entire firebaseConfig object with your config\n4. Save the file\n5. Refresh the page\n\nAfter this ONE-TIME setup, everyone can use the app directly!');
+
+                    } catch (e) {
+                        showError('setupError', 'Invalid Firebase config. Please check the format.');
+                    }
+                });
+                return;
+            }
+
+            // Firebase is configured, initialize it
             try {
-                const firebaseConfig = JSON.parse(configText);
-
                 firebase.initializeApp(firebaseConfig);
                 db = firebase.firestore();
 
-                // Test connection
+                // Test connection and initialize
                 db.collection('users').limit(1).get()
                     .then(() => {
-                        // Initialize admin user if not exists
                         initializeAdmin();
                         showScreen('loginScreen');
                     })
                     .catch(err => {
-                        showError('setupError', 'Connection failed. Check your Firestore rules: ' + err.message);
+                        alert('Firebase connection failed. Check your Firestore rules.\n\nError: ' + err.message);
+                        showScreen('setupScreen');
                     });
 
             } catch (e) {
-                showError('setupError', 'Invalid Firebase config. Please check the format.');
+                alert('Firebase initialization error: ' + e.message);
+                showScreen('setupScreen');
             }
-        });
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', initFirebase);
 
         async function initializeAdmin() {
             const adminRef = db.collection('users').doc('admin');
