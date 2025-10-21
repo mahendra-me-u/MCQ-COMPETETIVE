@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Practice Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .toggle-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .toggle-link a:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .quiz-container {
+            max-width: 700px;
+        }
+
+        .question-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .option {
+            background: white;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .progress {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .result-card {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .result-message {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .admin-panel {
+            max-width: 900px;
+        }
+
+        .user-results {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .user-results h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .result-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-section {
+            text-align: center;
+        }
+
+        .welcome-section h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #383;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #667eea;
+        }
+
+        .firebase-setup {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ffc107;
+        }
+
+        .firebase-setup h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .firebase-setup p {
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .firebase-setup code {
+            background: #f8f9fa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .stats-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid #e1e1e1;
+        }
+
+        .stats-card strong {
+            color: #667eea;
+            font-size: 24px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Firebase Setup Instructions -->
+    <div id="setupScreen" class="container admin-panel">
+        <div class="header">
+            <h1>🔧 Firebase Setup Required</h1>
+        </div>
+        <div class="firebase-setup">
+            <h3>Follow these steps to connect your Firebase database:</h3>
+            <p><strong>1.</strong> Go to <a href="https://console.firebase.google.com/" target="_blank">Firebase
+                    Console</a></p>
+            <p><strong>2.</strong> Create a new project (or use existing)</p>
+            <p><strong>3.</strong> Click "Add app" → Choose "Web" (</>) icon</p>
+            <p><strong>4.</strong> Register your app and copy the config object</p>
+            <p><strong>5.</strong> Enable Firestore Database (in Build menu)</p>
+            <p><strong>6.</strong> Set Firestore Rules to test mode:</p>
+            <code style="display:block; margin:10px 0; padding:10px;">
+                rules_version = '2';<br>
+                service cloud.firestore {<br>
+                &nbsp;&nbsp;match /databases/{database}/documents {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;match /{document=**} {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow read, write: if true;<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;}<br>
+                }
+            </code>
+            <p><strong>7.</strong> Paste your Firebase config below:</p>
+        </div>
+        <div class="form-group">
+            <label>Firebase Config (paste the entire config object)</label>
+            <textarea id="firebaseConfigInput"
+                style="width:100%; min-height:150px; padding:10px; border:2px solid #e1e1e1; border-radius:8px; font-family:monospace; font-size:12px;"
+                placeholder='{
+  "apiKey": "your-api-key",
+  "authDomain": "your-project.firebaseapp.com",
+  "projectId": "your-project-id",
+  "storageBucket": "your-project.appspot.com",
+  "messagingSenderId": "123456789",
+  "appId": "your-app-id"
+}'></textarea>
+        </div>
+        <button class="btn btn-primary" id="connectFirebaseBtn">Connect Firebase</button>
+        <div id="setupError" class="error-message hidden"></div>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="container hidden">
+        <div class="header">
+            <h1>🎓 MCQ Practice Platform</h1>
+            <p>Login to start practicing</p>
+        </div>
+        <div id="loginError" class="error-message hidden"></div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="loginUsername" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="loginPassword" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <div class="toggle-link">
+            Don't have an account? <a id="showSignup">Sign up here</a>
+        </div>
+    </div>
+
+    <!-- Signup Screen -->
+    <div id="signupScreen" class="container hidden">
+        <div class="header">
+            <h1>🎓 Create Account</h1>
+            <p>Join us to start practicing</p>
+        </div>
+        <div id="signupError" class="error-message hidden"></div>
+        <div id="signupSuccess" class="success-message hidden"></div>
+        <form id="signupForm">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" id="signupName" required>
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="signupUsername" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="signupPassword" required minlength="4">
+            </div>
+            <button type="submit" class="btn btn-primary">Create Account</button>
+        </form>
+        <div class="toggle-link">
+            Already have an account? <a id="showLogin">Login here</a>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboardScreen" class="container hidden">
+        <div class="header">
+            <h1>Welcome, <span id="userName"></span>!</h1>
+        </div>
+        <div class="welcome-section">
+            <h2>Ready to practice?</h2>
+            <button class="btn btn-primary" id="startQuizBtn">Start MCQ Practice</button>
+            <button class="btn btn-secondary" id="viewResultsBtn">View My Results</button>
+            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="container quiz-container hidden">
+        <div class="header">
+            <h1>MCQ Practice</h1>
+            <div class="progress">
+                Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span>
+            </div>
+        </div>
+        <div class="question-card">
+            <div class="question-text" id="questionText"></div>
+            <div id="optionsContainer"></div>
+        </div>
+        <div class="quiz-nav">
+            <button class="btn btn-secondary" id="prevBtn">Previous</button>
+            <button class="btn btn-primary" id="nextBtn">Next</button>
+        </div>
+    </div>
+
+    <!-- Result Screen -->
+    <div id="resultScreen" class="container hidden">
+        <div class="result-card">
+            <div class="header">
+                <h1>🎉 Quiz Complete!</h1>
+            </div>
+            <div class="result-score" id="scoreDisplay"></div>
+            <div class="result-message" id="resultMessage"></div>
+            <button class="btn btn-primary" id="retakeQuizBtn">Take Another Quiz</button>
+            <button class="btn btn-secondary" id="backToDashboardBtn">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <!-- User Results Screen -->
+    <div id="userResultsScreen" class="container admin-panel hidden">
+        <div class="header">
+            <h1>📊 My Results</h1>
+        </div>
+        <div id="userResultsContainer"></div>
+        <button class="btn btn-secondary" id="backFromResultsBtn">Back to Dashboard</button>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminScreen" class="container admin-panel hidden">
+        <div class="header">
+            <h1>👨‍💼 Admin Panel</h1>
+            <p>View all user results</p>
+        </div>
+        <div id="adminStats"></div>
+        <div id="allResults"></div>
+        <button class="btn btn-danger" id="adminLogoutBtn">Logout</button>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        let db = null;
+        let currentUser = null;
+        let currentQuiz = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+
+        // Sample MCQ Questions
+        const questionBank = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Berlin", "Paris", "Madrid"],
+                correct: 2
+            },
+            {
+                question: "Which planet is known as the Red Planet?",
+                options: ["Venus", "Mars", "Jupiter", "Saturn"],
+                correct: 1
+            },
+            {
+                question: "What is 2 + 2?",
+                options: ["3", "4", "5", "6"],
+                correct: 1
+            },
+            {
+                question: "Who painted the Mona Lisa?",
+                options: ["Vincent van Gogh", "Pablo Picasso", "Leonardo da Vinci", "Michelangelo"],
+                correct: 2
+            },
+            {
+                question: "What is the largest ocean on Earth?",
+                options: ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                correct: 3
+            }
+        ];
+
+        // Initialize Firebase
+        document.getElementById('connectFirebaseBtn').addEventListener('click', () => {
+            const configText = document.getElementById('firebaseConfigInput').value.trim();
+
+            try {
+                const firebaseConfig = JSON.parse(configText);
+
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+
+                // Test connection
+                db.collection('users').limit(1).get()
+                    .then(() => {
+                        // Initialize admin user if not exists
+                        initializeAdmin();
+                        showScreen('loginScreen');
+                    })
+                    .catch(err => {
+                        showError('setupError', 'Connection failed. Check your Firestore rules: ' + err.message);
+                    });
+
+            } catch (e) {
+                showError('setupError', 'Invalid Firebase config. Please check the format.');
+            }
+        });
+
+        async function initializeAdmin() {
+            const adminRef = db.collection('users').doc('admin');
+            const adminDoc = await adminRef.get();
+
+            if (!adminDoc.exists) {
+                await adminRef.set({
+                    username: 'admin',
+                    password: 'admin123',
+                    name: 'Administrator',
+                    isAdmin: true,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+        }
+
+        // Screen Navigation
+        function showScreen(screenId) {
+            document.querySelectorAll('.container').forEach(screen => {
+                screen.classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        // Show/Hide Messages
+        function showError(elementId, message) {
+            const errorEl = document.getElementById(elementId);
+            errorEl.textContent = message;
+            errorEl.classList.remove('hidden');
+        }
+
+        function hideError(elementId) {
+            document.getElementById(elementId).classList.add('hidden');
+        }
+
+        function showSuccess(elementId, message) {
+            const successEl = document.getElementById(elementId);
+            successEl.textContent = message;
+            successEl.classList.remove('hidden');
+            setTimeout(() => successEl.classList.add('hidden'), 3000);
+        }
+
+        // Toggle between login and signup
+        document.getElementById('showSignup').addEventListener('click', () => {
+            showScreen('signupScreen');
+            hideError('loginError');
+        });
+
+        document.getElementById('showLogin').addEventListener('click', () => {
+            showScreen('loginScreen');
+            hideError('signupError');
+            hideError('signupSuccess');
+        });
+
+        // Signup Form
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError('signupError');
+
+            const name = document.getElementById('signupName').value.trim();
+            const username = document.getElementById('signupUsername').value.trim().toLowerCase();
+            const password = document.getElementById('signupPassword').value;
+
+            try {
+                // Check if username exists
+                const userDoc = await db.collection('users').doc(username).get();
+
+                if (userDoc.exists) {
+                    showError('signupError', 'Username already exists!');
+                    return;
+                }
+
+                // Create new user
+                await db.collection('users').doc(username).set({
+                    username: username,
+                    password: password,
+                    name: name,
+                    isAdmin: false,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                showSuccess('signupSuccess', 'Account created successfully! Please login.');
+                document.getElementById('signupForm').reset();
+                setTimeout(() => showScreen('loginScreen'), 2000);
+
+            } catch (error) {
+                showError('signupError', 'Error creating account: ' + error.message);
+            }
+        });
+
+        // Login Form
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideError('loginError');
+
+            const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const userDoc = await db.collection('users').doc(username).get();
+
+                if (!userDoc.exists) {
+                    showError('loginError', 'Invalid username or password!');
+                    return;
+                }
+
+                const userData = userDoc.data();
+
+                if (userData.password !== password) {
+                    showError('loginError', 'Invalid username or password!');
+                    return;
+                }
+
+                currentUser = { id: username, ...userData };
+
+                if (userData.isAdmin) {
+                    await loadAdminPanel();
+                    showScreen('adminScreen');
+                } else {
+                    document.getElementById('userName').textContent = userData.name;
+                    showScreen('dashboardScreen');
+                }
+
+                document.getElementById('loginForm').reset();
+
+            } catch (error) {
+                showError('loginError', 'Login error: ' + error.message);
+            }
+        });
+
+        // Start Quiz
+        document.getElementById('startQuizBtn').addEventListener('click', () => {
+            startQuiz();
+        });
+
+        function startQuiz() {
+            currentQuiz = [...questionBank];
+            currentQuestionIndex = 0;
+            userAnswers = new Array(currentQuiz.length).fill(null);
+            document.getElementById('totalQuestions').textContent = currentQuiz.length;
+            loadQuestion();
+            showScreen('quizScreen');
+        }
+
+        function loadQuestion() {
+            const question = currentQuiz[currentQuestionIndex];
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('questionText').textContent = question.question;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionDiv.classList.add('selected');
+                }
+                optionDiv.textContent = option;
+                optionDiv.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            document.getElementById('nextBtn').textContent =
+                currentQuestionIndex === currentQuiz.length - 1 ? 'Finish' : 'Next';
+            document.getElementById('prevBtn').style.display =
+                currentQuestionIndex === 0 ? 'none' : 'block';
+        }
+
+        function selectOption(index) {
+            userAnswers[currentQuestionIndex] = index;
+            loadQuestion();
+        }
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentQuestionIndex < currentQuiz.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+            } else {
+                finishQuiz();
+            }
+        });
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        });
+
+        async function finishQuiz() {
+            let score = 0;
+            currentQuiz.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    score++;
+                }
+            });
+
+            const percentage = (score / currentQuiz.length * 100).toFixed(0);
+
+            try {
+                // Save result to Firestore
+                await db.collection('results').add({
+                    username: currentUser.username,
+                    name: currentUser.name,
+                    score: score,
+                    total: currentQuiz.length,
+                    percentage: parseInt(percentage),
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    date: new Date().toISOString()
+                });
+
+                // Display result
+                document.getElementById('scoreDisplay').textContent = `${score}/${currentQuiz.length}`;
+                document.getElementById('resultMessage').textContent =
+                    percentage >= 80 ? 'Excellent work!' :
+                        percentage >= 60 ? 'Good job!' :
+                            percentage >= 40 ? 'Keep practicing!' :
+                                'Don\'t give up, try again!';
+
+                showScreen('resultScreen');
+
+            } catch (error) {
+                alert('Error saving result: ' + error.message);
+            }
+        }
+
+        document.getElementById('retakeQuizBtn').addEventListener('click', () => {
+            startQuiz();
+        });
+
+        document.getElementById('backToDashboardBtn').addEventListener('click', () => {
+            showScreen('dashboardScreen');
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            currentUser = null;
+            showScreen('loginScreen');
+        });
+
+        document.getElementById('adminLogoutBtn').addEventListener('click', () => {
+            currentUser = null;
+            showScreen('loginScreen');
+        });
+
+        // View User Results
+        document.getElementById('viewResultsBtn').addEventListener('click', async () => {
+            try {
+                const resultsSnapshot = await db.collection('results')
+                    .where('username', '==', currentUser.username)
+                    .orderBy('timestamp', 'desc')
+                    .get();
+
+                if (resultsSnapshot.empty) {
+                    alert('No results yet. Take a quiz first!');
+                    return;
+                }
+
+                let resultHTML = '<div class="user-results"><h3>Your Results</h3>';
+
+                resultsSnapshot.forEach((doc, index) => {
+                    const result = doc.data();
+                    const date = result.date ? new Date(result.date).toLocaleString() : 'N/A';
+                    resultHTML += `
+                        <div class="result-item">
+                            <div>
+                                <strong>Attempt ${resultsSnapshot.size - index}</strong><br>
+                                ${date}
+                            </div>
+                            <div>
+                                <strong>${result.score}/${result.total}</strong> (${result.percentage}%)
+                            </div>
+                        </div>
+                    `;
+                });
+
+                resultHTML += '</div>';
+                document.getElementById('userResultsContainer').innerHTML = resultHTML;
+                showScreen('userResultsScreen');
+
+            } catch (error) {
+                alert('Error loading results: ' + error.message);
+            }
+        });
+
+        document.getElementById('backFromResultsBtn').addEventListener('click', () => {
+            showScreen('dashboardScreen');
+        });
+
+        // Admin Panel
+        async function loadAdminPanel() {
+            try {
+                // Get all results
+                const resultsSnapshot = await db.collection('results')
+                    .orderBy('timestamp', 'desc')
+                    .get();
+
+                // Get all users
+                const usersSnapshot = await db.collection('users').get();
+                const totalUsers = usersSnapshot.size - 1; // Exclude admin
+
+                // Calculate stats
+                const totalAttempts = resultsSnapshot.size;
+                let totalScore = 0;
+
+                const userGroups = {};
+
+                resultsSnapshot.forEach(doc => {
+                    const result = doc.data();
+                    totalScore += result.percentage;
+
+                    if (!userGroups[result.username]) {
+                        userGroups[result.username] = [];
+                    }
+                    userGroups[result.username].push(result);
+                });
+
+                const avgScore = totalAttempts > 0 ? (totalScore / totalAttempts).toFixed(1) : 0;
+
+                // Display stats
+                let statsHTML = '<div class="user-results"><h3>Platform Statistics</h3>';
+                statsHTML += `
+                    <div class="stats-card">
+                        <div>Total Users</div>
+                        <strong>${totalUsers}</strong>
+                    </div>
+                    <div class="stats-card">
+                        <div>Total Quiz Attempts</div>
+                        <strong>${totalAttempts}</strong>
+                    </div>
+                    <div class="stats-card">
+                        <div>Average Score</div>
+                        <strong>${avgScore}%</strong>
+                    </div>
+                </div>`;
+
+                document.getElementById('adminStats').innerHTML = statsHTML;
+
+                // Display results by user
+                if (totalAttempts === 0) {
+                    document.getElementById('allResults').innerHTML =
+                        '<p style="text-align:center; color:#666;">No quiz attempts yet.</p>';
+                    return;
+                }
+
+                let html = '';
+                Object.keys(userGroups).forEach(username => {
+                    const userResults = userGroups[username];
+                    html += `<div class="user-results">
+                        <h3>${userResults[0].name} (@${username})</h3>`;
+
+                    userResults.forEach((result, index) => {
+                        const date = result.date ? new Date(result.date).toLocaleString() : 'N/A';
+                        html += `
+                            <div class="result-item">
+                                <div>
+                                    <strong>Attempt ${index + 1}</strong><br>
+                                    ${date}
+                                </div>
+                                <div>
+                                    <strong>${result.score}/${result.total}</strong> (${result.percentage}%)
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    html += '</div>';
+                });
+
+                document.getElementById('allResults').innerHTML = html;
+
+            } catch (error) {
+                console.error('Error loading admin panel:', error);
+                document.getElementById('allResults').innerHTML =
+                    '<p style="text-align:center; color:#c33;">Error loading results: ' + error.message + '</p>';
+            }
+        }
+    </script>
+</body>
+
+</html>
