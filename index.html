@@ -5,469 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCQ Practice Platform</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    <link rel="stylesheet" href="style.css">
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            padding: 40px;
-            width: 100%;
-            max-width: 500px;
-            animation: slideUp 0.5s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header h1 {
-            color: #667eea;
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 500;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 10px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-secondary {
-            background: #f0f0f0;
-            color: #333;
-        }
-
-        .btn-secondary:hover {
-            background: #e0e0e0;
-        }
-
-        .btn-danger {
-            background: #ef4444;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background: #dc2626;
-        }
-
-        .toggle-link {
-            text-align: center;
-            margin-top: 20px;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .toggle-link a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .toggle-link a:hover {
-            text-decoration: underline;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .quiz-container {
-            max-width: 700px;
-        }
-
-        .question-card {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-
-        .question-text {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .option {
-            background: white;
-            padding: 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .option:hover {
-            border-color: #667eea;
-            transform: translateX(5px);
-        }
-
-        .option.selected {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .quiz-nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-        }
-
-        .progress {
-            text-align: center;
-            color: #666;
-            font-size: 14px;
-        }
-
-        .result-card {
-            text-align: center;
-            padding: 30px;
-        }
-
-        .result-score {
-            font-size: 48px;
-            font-weight: bold;
-            color: #667eea;
-            margin: 20px 0;
-        }
-
-        .result-message {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 30px;
-        }
-
-        .admin-panel {
-            max-width: 900px;
-        }
-
-        .user-results {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-
-        .user-results h3 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-
-        .result-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .review-question {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border-left: 4px solid #667eea;
-        }
-
-        .review-question-number {
-            font-size: 14px;
-            color: #667eea;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .review-question-text {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        .review-option {
-            background: white;
-            padding: 15px;
-            border: 2px solid #e1e1e1;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 45px;
-        }
-
-        .review-option::before {
-            content: '';
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 2px solid #e1e1e1;
-        }
-
-        .review-option.correct {
-            background: #d4edda;
-            border-color: #28a745;
-            color: #155724;
-        }
-
-        .review-option.correct::before {
-            content: '✓';
-            background: #28a745;
-            border-color: #28a745;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .review-option.wrong {
-            background: #f8d7da;
-            border-color: #dc3545;
-            color: #721c24;
-        }
-
-        .review-option.wrong::before {
-            content: '✗';
-            background: #dc3545;
-            border-color: #dc3545;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .review-option.not-selected {
-            opacity: 0.6;
-        }
-
-        .review-label {
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 10px;
-            padding: 3px 8px;
-            border-radius: 4px;
-            display: inline-block;
-        }
-
-        .label-correct {
-            background: #28a745;
-            color: white;
-        }
-
-        .label-your-answer {
-            background: #dc3545;
-            color: white;
-        }
-
-        .welcome-section {
-            text-align: center;
-        }
-
-        .welcome-section h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .success-message {
-            background: #efe;
-            color: #383;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 14px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: #667eea;
-        }
-
-        .firebase-setup {
-            background: #fff3cd;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            border: 2px solid #ffc107;
-        }
-
-        .firebase-setup h3 {
-            color: #856404;
-            margin-bottom: 10px;
-        }
-
-        .firebase-setup p {
-            color: #856404;
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        .firebase-setup code {
-            background: #f8f9fa;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        .stats-card {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 2px solid #e1e1e1;
-        }
-
-        .stats-card strong {
-            color: #667eea;
-            font-size: 24px;
-        }
-    </style>
 </head>
 
 <body>
-    <!-- Firebase Setup Instructions -->
-    <div id="setupScreen" class="container admin-panel">
-        <div class="header">
-            <h1>🔧 Firebase Setup Required</h1>
-        </div>
-        <div class="firebase-setup">
-            <h3>Follow these steps to connect your Firebase database:</h3>
-            <p><strong>1.</strong> Go to <a href="https://console.firebase.google.com/" target="_blank">Firebase
-                    Console</a></p>
-            <p><strong>2.</strong> Create a new project (or use existing)</p>
-            <p><strong>3.</strong> Click "Add app" → Choose "Web" (</>) icon</p>
-            <p><strong>4.</strong> Register your app and copy the config object</p>
-            <p><strong>5.</strong> Enable Firestore Database (in Build menu)</p>
-            <p><strong>6.</strong> Set Firestore Rules to test mode:</p>
-            <code style="display:block; margin:10px 0; padding:10px;">
-                rules_version = '2';<br>
-                service cloud.firestore {<br>
-                &nbsp;&nbsp;match /databases/{database}/documents {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;match /{document=**} {<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow read, write: if true;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-                &nbsp;&nbsp;}<br>
-                }
-            </code>
-            <p><strong>7.</strong> Paste your Firebase config below:</p>
-        </div>
-        <div class="form-group">
-            <label>Firebase Config (paste the entire config object)</label>
-            <textarea id="firebaseConfigInput"
-                style="width:100%; min-height:150px; padding:10px; border:2px solid #e1e1e1; border-radius:8px; font-family:monospace; font-size:12px;"
-                placeholder='{
-  "apiKey": "your-api-key",
-  "authDomain": "your-project.firebaseapp.com",
-  "projectId": "your-project-id",
-  "storageBucket": "your-project.appspot.com",
-  "messagingSenderId": "123456789",
-  "appId": "your-app-id"
-}'></textarea>
-        </div>
-        <button class="btn btn-primary" id="connectFirebaseBtn">Connect Firebase</button>
-        <div id="setupError" class="error-message hidden"></div>
-    </div>
-
     <!-- Login Screen -->
     <div id="loginScreen" class="container hidden">
         <div class="header">
@@ -492,7 +34,7 @@
     </div>
 
     <!-- Signup Screen -->
-    <div id="signupScreen" class="container hidden">
+    <div id="signupScreen" class="container hidden active">
         <div class="header">
             <h1>🎓 Create Account</h1>
             <p>Join us to start practicing</p>
@@ -520,17 +62,37 @@
     </div>
 
     <!-- Dashboard Screen -->
-    <div id="dashboardScreen" class="container hidden">
-        <div class="header">
-            <h1>Welcome, <span id="userName"></span>!</h1>
-        </div>
-        <div class="welcome-section">
-            <h2>Ready to practice?</h2>
-            <button class="btn btn-primary" id="startQuizBtn">Start MCQ Practice</button>
-            <button class="btn btn-secondary" id="viewResultsBtn">View My Results</button>
-            <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+<div id="dashboardScreen" class="container hidden">
+    <div>
+        <a href="#" class="highlight-link">Match your OMR Answers with WBSSC Group C Answers</a>
+    </div>
+    <div class="header">
+        <h1>Welcome, <span id="userName"></span>!</h1>
+    </div>
+    <div class="welcome-section">
+        <h2>Select Quiz Category</h2>
+        <div class="category-cards">
+            <!-- General Knowledge -->
+            <div class="category-card">
+                <h3>🧠 General Knowledge</h3>
+                <p>World Geography & Facts</p>
+                <button class="btn btn-primary practice-btn" data-cat="General Knowledge" data-mode="practice">Practice
+                    Mode</button>
+                <button class="btn btn-primary exam-btn" data-cat="General Knowledge" data-mode="exam"
+                    style="margin-top:8px">Mock Exam</button>
+            </div>
+            <!-- Competitive Exams -->
+            <div class="category-card">
+                <h3>🏆 Competitive Exams</h3>
+                <p>Advanced MCQ Practice</p>
+                <button class="btn btn-primary practice-btn" data-cat="Competitive Exams" data-mode="practice">Practice
+                    Mode</button>
+                <button class="btn btn-primary exam-btn" data-cat="Competitive Exams" data-mode="exam"
+                    style="margin-top:8px">Mock Exam</button>
+            </div>
         </div>
     </div>
+</div>
 
     <!-- Quiz Screen -->
     <div id="quizScreen" class="container quiz-container hidden">
@@ -540,9 +102,11 @@
                 Question <span id="currentQuestion">1</span> of <span id="totalQuestions">5</span>
             </div>
         </div>
+    <!-- In quizScreen question-card -->
         <div class="question-card">
             <div class="question-text" id="questionText"></div>
             <div id="optionsContainer"></div>
+            <div id="feedback" class="feedback-panel hidden"></div>
         </div>
         <div class="quiz-nav">
             <button class="btn btn-secondary" id="prevBtn">Previous</button>
@@ -558,6 +122,7 @@
             </div>
             <div class="result-score" id="scoreDisplay"></div>
             <div class="result-message" id="resultMessage"></div>
+            <div id="recommendation" class="result-message" style="font-size:16px; color:#28a745; font-weight:500;"></div>
             <button class="btn btn-primary" id="reviewAnswersBtn">📝 Review Answers</button>
             <button class="btn btn-primary" id="retakeQuizBtn">Take Another Quiz</button>
             <button class="btn btn-secondary" id="backToDashboardBtn">Back to Dashboard</button>
@@ -592,596 +157,64 @@
         </div>
         <div id="adminStats"></div>
         <div id="allResults"></div>
+        <div class="manage-section">
+            <h2>📚 Manage Quiz Bank</h2>
         <button class="btn btn-danger" id="adminLogoutBtn">Logout</button>
     </div>
+    <!-- Add single question -->
+    <form id="addQuestionForm">
+        <div class="form-group">
+            <label>Category</label>
+            <select id="newCategory" style="width:100%; padding:12px;">
+                <option>General Knowledge</option>
+                <option>Competitive Exams</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Question</label>
+            <textarea id="newQuestion" required style="height:80px;"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Option 1</label><input type="text" id="opt1" required>
+        </div>
+        <div class="form-group">
+            <label>Option 2</label><input type="text" id="opt2" required>
+        </div>
+        <div class="form-group">
+            <label>Option 3</label><input type="text" id="opt3" required>
+        </div>
+        <div class="form-group">
+            <label>Option 4</label><input type="text" id="opt4" required>
+        </div>
+        <div class="form-group">
+            <label>Correct Index (0-3)</label>
+            <input type="number" id="newCorrect" min="0" max="3" required>
+        </div>
+        <div class="form-group">
+            <label>Explanation</label>
+            <textarea id="newExplanation" required style="height:80px;"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Question</button>
+    </form>
 
-    <!-- Firebase SDK -->
+    <!-- Import / Export -->
+    <div class="form-group" style="margin-top:30px;">
+        <label>Import Questions (JSON Array)</label>
+        <textarea id="importTextarea"
+            placeholder='[{"question":"...","options":[...],"correct":0,"category":"General Knowledge","explanation":"..."}, ...]'
+            style="height:120px;"></textarea>
+    </div>
+    <div>
+    <button class="btn btn-primary" id="importBtn">Import JSON</button>
+    <button class="btn btn-secondary" id="exportBtn">Export All Questions (JSON)</button>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-    <script>
-        // ⚠️ PASTE YOUR FIREBASE CONFIG HERE (ONE TIME SETUP)
-        const firebaseConfig = {
-            apiKey: "AIzaSyBfGRzd0zYLfDa2YFAFtsryTkD7jx4AXOM",
-            authDomain: "mcq-platform-a08cc.firebaseapp.com",
-            projectId: "mcq-platform-a08cc",
-            storageBucket: "mcq-platform-a08cc.firebasestorage.app",
-            messagingSenderId: "1028116014295",
-            appId: "1:1028116014295:web:7bfc56b259d4f58be93c92"
-        };
 
-        let db = null;
-        let currentUser = null;
-        let currentQuiz = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
+    <script src="script.js" defer></script>
 
-        // Sample MCQ Questions
-        const questionBank = [
-            {
-                question: "নিম্নলিখিত কোনটি পৃথিবীর সবচেয়ে বড় মহাসাগর?",
-                options: ["আটলান্টিক মহাসাগর", "ভারত মহাসাগর", "আর্কটিক মহাসাগর", "প্রশান্ত মহাসাগর"],
-                correct: 3
-            },
-            {
-                question: "পৃথিবীর কোন অংশে 'গ্রেট ব্যারিয়ার রিফ' অবস্থিত?",
-                options: ["অস্ট্রেলিয়া", "দক্ষিণ আমেরিকা", "আফ্রিকা", "এশিয়া"],
-                correct: 0
-            },
-            {
-                question: "নিম্নলিখিত কোনটি একটি উপনদী?",
-                options: ["যমুনা", "গঙ্গা", "ব্রহ্মপুত্র", "সোন"],
-                correct: 0
-            },
-            {
-                question: "'ডেড সি' কোথায় অবস্থিত?",
-                options: ["জর্ডান", "ইসরায়েল", "উভয় (A) এবং (B)", "সৌদি আরব"],
-                correct: 2
-            },
-            {
-                question: "পৃথিবীর সর্বোচ্চ পর্বতশৃঙ্গ কোনটি?",
-                options: ["কাঞ্চনজঙ্ঘা", "এভারেস্ট", "মাউন্ট ম্যাকিনলি", "কিলিমানজারো"],
-                correct: 1
-            },
-            {
-                question: "নিম্নলিখিত কোনটি একটি মরুভূমি?",
-                options: ["সাহারা", "আমাজন", "গঙ্গা", "নীল"],
-                correct: 0
-            },
-            {
-                question: "'রোয়ান্ডা' কোন মহাদেশে অবস্থিত?",
-                options: ["এশিয়া", "ইউরোপ", "আফ্রিকা", "উত্তর আমেরিকা"],
-                correct: 2
-            },
-            {
-                question: "পৃথিবীর কোন অক্ষাংশ রেখা 'ট্রপিক অফ ক্যান্সার' নামে পরিচিত?",
-                options: ["২৩.৫° উত্তর", "২৩.৫° দক্ষিণ", "৬৬.৫° উত্তর", "৬৬.৫° দক্ষিণ"],
-                correct: 0
-            },
-            {
-                question: "নিম্নলিখিত কোনটি আগ্নেয়গিরির ধরন?",
-                options: ["শিল্ড", "কম্পোজিট", "কালডেরা", "সবগুলিই"],
-                correct: 3
-            },
-            {
-                question: "'অ্যামাজন রেইনফরেস্ট' অধিকাংশ অংশ কোন দেশে অবস্থিত?",
-                options: ["ব্রাজিল", "পেরু", "কলম্বিয়া", "ভেনেজুয়েলা"],
-                correct: 0
-            },
-            {
-                question: "পৃথিবীর কোন সমুদ্রটি 'ডেথ সি' নামে পরিচিত?",
-                options: ["লোহিত সাগর", "মৃত সাগর", "কৃষ্ণ সাগর", "কারা সাগর"],
-                correct: 1
-            },
-            {
-                question: "পৃথিবীর সবচেয়ে ছোট মহাদেশ কোনটি?",
-                options: ["ইউরোপ", "অস্ট্রেলিয়া", "আন্টার্কটিকা", "দক্ষিণ আমেরিকা"],
-                correct: 1
-            },
-            {
-                question: "নীলনদ কোন মহাসাগরে গিয়ে মিশেছে?",
-                options: ["ভারত মহাসাগর", "প্রশান্ত মহাসাগর", "আটলান্টিক মহাসাগর", "আর্কটিক মহাসাগর"],
-                correct: 2
-            },
-            {
-                question: "পৃথিবীর সবচেয়ে ঠান্ডা স্থান কোনটি?",
-                options: ["আলাস্কা", "সাইবেরিয়া", "আন্টার্কটিকা", "গ্রিনল্যান্ড"],
-                correct: 2
-            },
-            {
-                question: "কোন দেশকে 'সানরাইজ ল্যান্ড' বলা হয়?",
-                options: ["চীন", "জাপান", "থাইল্যান্ড", "কোরিয়া"],
-                correct: 1
-            }
-        ];
-
-        // Initialize Firebase on page load
-        function initFirebase() {
-            // Check if config is set
-            if (firebaseConfig.apiKey === "YOUR_API_KEY_HERE") {
-                showScreen('setupScreen');
-
-                // Auto-fill setup instructions
-                document.getElementById('connectFirebaseBtn').addEventListener('click', () => {
-                    const configText = document.getElementById('firebaseConfigInput').value.trim();
-
-                    try {
-                        const newConfig = JSON.parse(configText);
-
-                        // Show instructions to update code
-                        alert('✅ Config is valid!\n\nNow follow these steps:\n\n1. Open the HTML file in a text editor\n2. Find the line: apiKey: "YOUR_API_KEY_HERE"\n3. Replace the entire firebaseConfig object with your config\n4. Save the file\n5. Refresh the page\n\nAfter this ONE-TIME setup, everyone can use the app directly!');
-
-                    } catch (e) {
-                        showError('setupError', 'Invalid Firebase config. Please check the format.');
-                    }
-                });
-                return;
-            }
-
-            // Firebase is configured, initialize it
-            try {
-                firebase.initializeApp(firebaseConfig);
-                db = firebase.firestore();
-
-                // Test connection and initialize
-                db.collection('users').limit(1).get()
-                    .then(() => {
-                        initializeAdmin();
-                        showScreen('loginScreen');
-                    })
-                    .catch(err => {
-                        alert('Firebase connection failed. Check your Firestore rules.\n\nError: ' + err.message);
-                        showScreen('setupScreen');
-                    });
-
-            } catch (e) {
-                alert('Firebase initialization error: ' + e.message);
-                showScreen('setupScreen');
-            }
-        }
-
-        // Initialize on page load
-        window.addEventListener('load', initFirebase);
-
-        async function initializeAdmin() {
-            const adminRef = db.collection('users').doc('admin');
-            const adminDoc = await adminRef.get();
-
-            if (!adminDoc.exists) {
-                await adminRef.set({
-                    username: 'admin',
-                    password: 'admin123',
-                    name: 'Administrator',
-                    isAdmin: true,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            }
-        }
-
-        // Screen Navigation
-        function showScreen(screenId) {
-            document.querySelectorAll('.container').forEach(screen => {
-                screen.classList.add('hidden');
-            });
-            document.getElementById(screenId).classList.remove('hidden');
-        }
-
-        // Show/Hide Messages
-        function showError(elementId, message) {
-            const errorEl = document.getElementById(elementId);
-            errorEl.textContent = message;
-            errorEl.classList.remove('hidden');
-        }
-
-        function hideError(elementId) {
-            document.getElementById(elementId).classList.add('hidden');
-        }
-
-        function showSuccess(elementId, message) {
-            const successEl = document.getElementById(elementId);
-            successEl.textContent = message;
-            successEl.classList.remove('hidden');
-            setTimeout(() => successEl.classList.add('hidden'), 3000);
-        }
-
-        // Toggle between login and signup
-        document.getElementById('showSignup').addEventListener('click', () => {
-            showScreen('signupScreen');
-            hideError('loginError');
-        });
-
-        document.getElementById('showLogin').addEventListener('click', () => {
-            showScreen('loginScreen');
-            hideError('signupError');
-            hideError('signupSuccess');
-        });
-
-        // Signup Form
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            hideError('signupError');
-
-            const name = document.getElementById('signupName').value.trim();
-            const username = document.getElementById('signupUsername').value.trim().toLowerCase();
-            const password = document.getElementById('signupPassword').value;
-
-            try {
-                // Check if username exists
-                const userDoc = await db.collection('users').doc(username).get();
-
-                if (userDoc.exists) {
-                    showError('signupError', 'Username already exists!');
-                    return;
-                }
-
-                // Create new user
-                await db.collection('users').doc(username).set({
-                    username: username,
-                    password: password,
-                    name: name,
-                    isAdmin: false,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                showSuccess('signupSuccess', 'Account created successfully! Please login.');
-                document.getElementById('signupForm').reset();
-                setTimeout(() => showScreen('loginScreen'), 2000);
-
-            } catch (error) {
-                showError('signupError', 'Error creating account: ' + error.message);
-            }
-        });
-
-        // Login Form
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            hideError('loginError');
-
-            const username = document.getElementById('loginUsername').value.trim().toLowerCase();
-            const password = document.getElementById('loginPassword').value;
-
-            try {
-                const userDoc = await db.collection('users').doc(username).get();
-
-                if (!userDoc.exists) {
-                    showError('loginError', 'Invalid username or password!');
-                    return;
-                }
-
-                const userData = userDoc.data();
-
-                if (userData.password !== password) {
-                    showError('loginError', 'Invalid username or password!');
-                    return;
-                }
-
-                currentUser = { id: username, ...userData };
-
-                if (userData.isAdmin) {
-                    await loadAdminPanel();
-                    showScreen('adminScreen');
-                } else {
-                    document.getElementById('userName').textContent = userData.name;
-                    showScreen('dashboardScreen');
-                }
-
-                document.getElementById('loginForm').reset();
-
-            } catch (error) {
-                showError('loginError', 'Login error: ' + error.message);
-            }
-        });
-
-        // Start Quiz
-        document.getElementById('startQuizBtn').addEventListener('click', () => {
-            startQuiz();
-        });
-
-        function startQuiz() {
-            currentQuiz = [...questionBank];
-            currentQuestionIndex = 0;
-            userAnswers = new Array(currentQuiz.length).fill(null);
-            document.getElementById('totalQuestions').textContent = currentQuiz.length;
-            loadQuestion();
-            showScreen('quizScreen');
-        }
-
-        function loadQuestion() {
-            const question = currentQuiz[currentQuestionIndex];
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            document.getElementById('questionText').textContent = question.question;
-
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-
-            question.options.forEach((option, index) => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'option';
-                if (userAnswers[currentQuestionIndex] === index) {
-                    optionDiv.classList.add('selected');
-                }
-                optionDiv.textContent = option;
-                optionDiv.addEventListener('click', () => selectOption(index));
-                optionsContainer.appendChild(optionDiv);
-            });
-
-            document.getElementById('nextBtn').textContent =
-                currentQuestionIndex === currentQuiz.length - 1 ? 'Finish' : 'Next';
-            document.getElementById('prevBtn').style.display =
-                currentQuestionIndex === 0 ? 'none' : 'block';
-        }
-
-        function selectOption(index) {
-            userAnswers[currentQuestionIndex] = index;
-            loadQuestion();
-        }
-
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            if (currentQuestionIndex < currentQuiz.length - 1) {
-                currentQuestionIndex++;
-                loadQuestion();
-            } else {
-                finishQuiz();
-            }
-        });
-
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion();
-            }
-        });
-
-        async function finishQuiz() {
-            let score = 0;
-            currentQuiz.forEach((question, index) => {
-                if (userAnswers[index] === question.correct) {
-                    score++;
-                }
-            });
-
-            const percentage = (score / currentQuiz.length * 100).toFixed(0);
-
-            try {
-                // Save result to Firestore
-                await db.collection('results').add({
-                    username: currentUser.username,
-                    name: currentUser.name,
-                    score: score,
-                    total: currentQuiz.length,
-                    percentage: parseInt(percentage),
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                    date: new Date().toISOString()
-                });
-
-                // Display result
-                document.getElementById('scoreDisplay').textContent = `${score}/${currentQuiz.length}`;
-                document.getElementById('resultMessage').textContent =
-                    percentage >= 80 ? 'Excellent work!' :
-                        percentage >= 60 ? 'Good job!' :
-                            percentage >= 40 ? 'Keep practicing!' :
-                                'Don\'t give up, try again!';
-
-                showScreen('resultScreen');
-
-            } catch (error) {
-                alert('Error saving result: ' + error.message);
-            }
-        }
-
-        document.getElementById('retakeQuizBtn').addEventListener('click', () => {
-            startQuiz();
-        });
-
-        document.getElementById('reviewAnswersBtn').addEventListener('click', () => {
-            showReview();
-        });
-
-        document.getElementById('backToResultBtn').addEventListener('click', () => {
-            showScreen('resultScreen');
-        });
-
-        document.getElementById('backToDashboardFromReviewBtn').addEventListener('click', () => {
-            showScreen('dashboardScreen');
-        });
-
-        function showReview() {
-            const reviewContainer = document.getElementById('reviewContainer');
-            let html = '';
-
-            currentQuiz.forEach((question, index) => {
-                const userAnswer = userAnswers[index];
-                const correctAnswer = question.correct;
-                const isCorrect = userAnswer === correctAnswer;
-
-                html += `
-                    <div class="review-question">
-                        <div class="review-question-number">Question ${index + 1}</div>
-                        <div class="review-question-text">${question.question}</div>
-                `;
-
-                question.options.forEach((option, optionIndex) => {
-                    let optionClass = 'review-option';
-                    let label = '';
-
-                    // Correct answer
-                    if (optionIndex === correctAnswer) {
-                        optionClass += ' correct';
-                        label = '<span class="review-label label-correct">Correct Answer</span>';
-                    }
-
-                    // User's wrong answer
-                    if (optionIndex === userAnswer && !isCorrect) {
-                        optionClass += ' wrong';
-                        label = '<span class="review-label label-your-answer">Your Answer</span>';
-                    }
-
-                    // Not selected options
-                    if (optionIndex !== correctAnswer && optionIndex !== userAnswer) {
-                        optionClass += ' not-selected';
-                    }
-
-                    html += `
-                        <div class="${optionClass}">
-                            ${option} ${label}
-                        </div>
-                    `;
-                });
-
-                html += '</div>';
-            });
-
-            reviewContainer.innerHTML = html;
-            showScreen('reviewScreen');
-        }
-
-        document.getElementById('backToDashboardBtn').addEventListener('click', () => {
-            showScreen('dashboardScreen');
-        });
-
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            currentUser = null;
-            showScreen('loginScreen');
-        });
-
-        document.getElementById('adminLogoutBtn').addEventListener('click', () => {
-            currentUser = null;
-            showScreen('loginScreen');
-        });
-
-        // View User Results
-        document.getElementById('viewResultsBtn').addEventListener('click', async () => {
-            try {
-                const resultsSnapshot = await db.collection('results')
-                    .where('username', '==', currentUser.username)
-                    .orderBy('timestamp', 'desc')
-                    .get();
-
-                if (resultsSnapshot.empty) {
-                    alert('No results yet. Take a quiz first!');
-                    return;
-                }
-
-                let resultHTML = '<div class="user-results"><h3>Your Results</h3>';
-
-                resultsSnapshot.forEach((doc, index) => {
-                    const result = doc.data();
-                    const date = result.date ? new Date(result.date).toLocaleString() : 'N/A';
-                    resultHTML += `
-                        <div class="result-item">
-                            <div>
-                                <strong>Attempt ${resultsSnapshot.size - index}</strong><br>
-                                ${date}
-                            </div>
-                            <div>
-                                <strong>${result.score}/${result.total}</strong> (${result.percentage}%)
-                            </div>
-                        </div>
-                    `;
-                });
-
-                resultHTML += '</div>';
-                document.getElementById('userResultsContainer').innerHTML = resultHTML;
-                showScreen('userResultsScreen');
-
-            } catch (error) {
-                alert('Error loading results: ' + error.message);
-            }
-        });
-
-        document.getElementById('backFromResultsBtn').addEventListener('click', () => {
-            showScreen('dashboardScreen');
-        });
-
-        // Admin Panel
-        async function loadAdminPanel() {
-            try {
-                // Get all results
-                const resultsSnapshot = await db.collection('results')
-                    .orderBy('timestamp', 'desc')
-                    .get();
-
-                // Get all users
-                const usersSnapshot = await db.collection('users').get();
-                const totalUsers = usersSnapshot.size - 1; // Exclude admin
-
-                // Calculate stats
-                const totalAttempts = resultsSnapshot.size;
-                let totalScore = 0;
-
-                const userGroups = {};
-
-                resultsSnapshot.forEach(doc => {
-                    const result = doc.data();
-                    totalScore += result.percentage;
-
-                    if (!userGroups[result.username]) {
-                        userGroups[result.username] = [];
-                    }
-                    userGroups[result.username].push(result);
-                });
-
-                const avgScore = totalAttempts > 0 ? (totalScore / totalAttempts).toFixed(1) : 0;
-
-                // Display stats
-                let statsHTML = '<div class="user-results"><h3>Platform Statistics</h3>';
-                statsHTML += `
-                    <div class="stats-card">
-                        <div>Total Users</div>
-                        <strong>${totalUsers}</strong>
-                    </div>
-                    <div class="stats-card">
-                        <div>Total Quiz Attempts</div>
-                        <strong>${totalAttempts}</strong>
-                    </div>
-                    <div class="stats-card">
-                        <div>Average Score</div>
-                        <strong>${avgScore}%</strong>
-                    </div>
-                </div>`;
-
-                document.getElementById('adminStats').innerHTML = statsHTML;
-
-                // Display results by user
-                if (totalAttempts === 0) {
-                    document.getElementById('allResults').innerHTML =
-                        '<p style="text-align:center; color:#666;">No quiz attempts yet.</p>';
-                    return;
-                }
-
-                let html = '';
-                Object.keys(userGroups).forEach(username => {
-                    const userResults = userGroups[username];
-                    html += `<div class="user-results">
-                        <h3>${userResults[0].name} (@${username})</h3>`;
-
-                    userResults.forEach((result, index) => {
-                        const date = result.date ? new Date(result.date).toLocaleString() : 'N/A';
-                        html += `
-                            <div class="result-item">
-                                <div>
-                                    <strong>Attempt ${index + 1}</strong><br>
-                                    ${date}
-                                </div>
-                                <div>
-                                    <strong>${result.score}/${result.total}</strong> (${result.percentage}%)
-                                </div>
-                            </div>
-                        `;
-                    });
-
-                    html += '</div>';
-                });
-
-                document.getElementById('allResults').innerHTML = html;
-
-            } catch (error) {
-                console.error('Error loading admin panel:', error);
-                document.getElementById('allResults').innerHTML =
-                    '<p style="text-align:center; color:#c33;">Error loading results: ' + error.message + '</p>';
-            }
-        }
-    </script>
 </body>
 
 </html>
